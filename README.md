@@ -19,7 +19,7 @@ What you need:
 #### Creating a new app 
 
 ```bash
-rails new nyapp -d postgresql -m https://raw.githubusercontent.com/kyletress/groove/master/template.rb
+rails new myapp -d postgresql -m https://raw.githubusercontent.com/kyletress/groove/master/template.rb
 ```
 
 or you can make this the default by adding the following lines to your `~/.railsrc` file:
