@@ -38,6 +38,10 @@ def copy_templates
     generate :controller, "StaticPages home"
 
     route "root to: 'static_pages#home'"
+    route "get  '/signup', to: 'users#new'"
+    route "post '/signup', to: 'users#create'"
+    route "resources :users"
+
 end 
 
 def add_users 
