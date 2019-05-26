@@ -1,4 +1,5 @@
 require "fileutils"
+require "shellwords"
 
 # Copied from: https://github.com/mattbrictson/rails-template
 # Add this template directory to source_paths so that Thor actions like
@@ -8,15 +9,15 @@ require "fileutils"
 def add_template_repository_to_source_path
     if __FILE__ =~ %r{\Ahttps?://}
       require "tmpdir"
-      source_paths.unshift(tempdir = Dir.mktmpdir("jumpstart-"))
+      source_paths.unshift(tempdir = Dir.mktmpdir("groove-"))
       at_exit { FileUtils.remove_entry(tempdir) }
       git clone: [
         "--quiet",
-        "https://github.com/excid3/jumpstart.git",
+        "https://github.com/kyletress/groove.git",
         tempdir
       ].map(&:shellescape).join(" ")
   
-      if (branch = __FILE__[%r{jumpstart/(.+)/template.rb}, 1])
+      if (branch = __FILE__[%r{groove/(.+)/template.rb}, 1])
         Dir.chdir(tempdir) { git checkout: branch }
       end
     else
