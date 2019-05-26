@@ -34,6 +34,7 @@ end
 
 def copy_templates
   remove_file "app/assets/stylesheets/application.css"
+  copy_file "Procfile"
   directory "app", force: true
   directory "config", force: true
   generate :controller, "StaticPages home"
