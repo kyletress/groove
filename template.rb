@@ -35,6 +35,7 @@ end
 def copy_templates
   remove_file "app/assets/stylesheets/application.css"
   directory "app", force: true
+  directory "config", force: true
   generate :controller, "StaticPages home"
 
   route "root to: 'static_pages#home'"
