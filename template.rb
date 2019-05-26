@@ -40,10 +40,16 @@ def copy_templates
     route "root to: 'static_pages#home'"
 end 
 
+def add_users 
+    generate :controller, "Users"
+    generate :model, "User first_name last_name email:string:uniq password_digest"
+end 
+
 # Main setup
 add_template_repository_to_source_path
 
 add_gems
+add_users
 
 after_bundle do
     copy_templates
