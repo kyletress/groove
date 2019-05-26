@@ -44,7 +44,7 @@ end
 
 def add_users 
   generate :controller, "Users"
-  generate :model, "User first_name last_name email:string:uniq password_digest"
+  generate :model, "User first_name last_name email:string:uniq password_digest remember_digest"
   generate :controller, "Sessions new"
 
   route "get  '/signup', to: 'users#new'"
