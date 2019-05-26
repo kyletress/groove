@@ -5,9 +5,18 @@ def add_gems
     gem 'sidekiq', '~> 5.2', '>= 5.2.5'
 end 
 
+def copy_templates
+    remove_file "app/assets/stylesheets/application.css"
+    generate :controller, "StaticPages home"
+
+    route "root to: 'static_pages#home'"
+end 
+
 add_gems
 
 after_bundle do
+    copy_templates
+    
     # Create and migrate the database
     rails_command "db:create"
     rails_command "db:migrate"
