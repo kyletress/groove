@@ -30,6 +30,8 @@ def add_gems
   gem 'name_of_person'
   gem 'redis', '~> 4.0'
   gem 'sidekiq', '~> 5.2', '>= 5.2.5'
+  gem 'mini_magick', '~> 4.8'
+  gem 'pretender'
 end 
 
 def copy_templates
@@ -37,22 +39,30 @@ def copy_templates
   copy_file "Procfile"
   directory "app", force: true
   directory "config", force: true
+  directory "db", force: true
   generate :controller, "StaticPages home"
 
-  route "root to: 'static_pages#home'"
+  # route "root to: 'static_pages#home'"
 end 
 
 def add_users 
   generate :controller, "Users"
-  generate :model, "User first_name last_name email:string:uniq password_digest remember_digest"
   generate :controller, "Sessions new"
+  
+  generate :model, "User first_name last_name email:string:uniq password_digest remember_digest admin:boolean"
+  
+  # Set admin default to false
+  in_root do
+    migration = Dir.glob("db/migrate/*").max_by{ |f| File.mtime(f) }
+    gsub_file migration, /:admin/, ":admin, default: false"
+  end
 
-  route "get  '/signup', to: 'users#new'"
-  route "post '/signup', to: 'users#create'"
-  route "get '/login', to: 'sessions#new'"
-  route "post '/login', to: 'sessions#create'"
-  route "delete '/logout', to: 'sessions#destroy'"
-  route "resources :users"
+  # route "get  '/signup', to: 'users#new'"
+  # route "post '/signup', to: 'users#create'"
+  # route "get '/login', to: 'sessions#new'"
+  # route "post '/login', to: 'sessions#create'"
+  # route "delete '/logout', to: 'sessions#destroy'"
+  # route "resources :users"
 end 
 
 def configure_ssl
@@ -71,6 +81,7 @@ after_bundle do
   # Create and migrate the database
   rails_command "db:create"
   rails_command "db:migrate"
+  rails_command "db:seed"
 
   # Initialize a git repo and commit everything 
   git :init 

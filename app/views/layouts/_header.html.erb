@@ -4,6 +4,9 @@
     <% if logged_in? %>
       <%= link_to "Profile", current_user %>
       <%= link_to "Settings", edit_user_path(current_user) %>
+      <% if current_user.admin? %>
+        <%= link_to "Admin", admin_path %>
+      <% end %>
       <%= link_to "Log out", logout_path, method: :delete %>
     <% else %>
       <%= link_to "Log in", login_path %>
